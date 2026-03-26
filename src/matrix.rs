@@ -1,7 +1,7 @@
 use faer::Mat;
 use ndarray::Array2;
-use rand::rngs::StdRng;
 use rand::SeedableRng;
+use rand::rngs::StdRng;
 use rand_distr::{Distribution, StandardNormal};
 
 pub fn generate_rotation_matrix_with_rng(d: usize, rng: &mut StdRng) -> Array2<f32> {
@@ -102,6 +102,7 @@ pub fn matrix_vector_multiply_simd(
     debug_assert_eq!(out.len(), rows);
 
     unsafe {
+        #[allow(clippy::needless_range_loop)]
         for i in 0..rows {
             let row = matrix.row(i);
             let mut sum = _mm_setzero_ps();

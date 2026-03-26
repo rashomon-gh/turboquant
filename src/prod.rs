@@ -103,8 +103,13 @@ impl TurboQuantProd {
             &mut workspace.x_qjl,
         );
 
-        for i in 0..self.d {
-            out[i] = workspace.x_mse_reconstructed[i] + workspace.x_qjl[i];
+        for (out_val, (mse_val, qjl_val)) in out.iter_mut().zip(
+            workspace
+                .x_mse_reconstructed
+                .iter()
+                .zip(workspace.x_qjl.iter()),
+        ) {
+            *out_val = mse_val + qjl_val;
         }
     }
 }

@@ -1,4 +1,4 @@
-const SQRT_2_OVER_PI: f32 = 0.7978845608;
+const SQRT_2_OVER_PI: f32 = 0.797_884_6;
 
 pub fn generate_centroids(d: usize, b: usize) -> Vec<f32> {
     let num_centroids = 1usize << b;

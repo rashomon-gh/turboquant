@@ -3,7 +3,7 @@ pub const BITS_PER_BYTE: usize = 8;
 #[inline]
 pub fn pack_bits(signs: &[i8]) -> Vec<u8> {
     let n = signs.len();
-    let packed_len = (n + BITS_PER_BYTE - 1) / BITS_PER_BYTE;
+    let packed_len = n.div_ceil(BITS_PER_BYTE);
     let mut packed = vec![0u8; packed_len];
 
     for (i, &sign) in signs.iter().enumerate() {
@@ -17,7 +17,7 @@ pub fn pack_bits(signs: &[i8]) -> Vec<u8> {
 
 #[inline]
 pub fn pack_bits_into(signs: &[i8], packed: &mut [u8]) {
-    let packed_len = (signs.len() + BITS_PER_BYTE - 1) / BITS_PER_BYTE;
+    let packed_len = signs.len().div_ceil(BITS_PER_BYTE);
     debug_assert!(packed.len() >= packed_len);
 
     for byte in packed.iter_mut() {
@@ -35,14 +35,14 @@ pub fn pack_bits_into(signs: &[i8], packed: &mut [u8]) {
 pub fn unpack_bits(packed: &[u8], n: usize, signs: &mut [i8]) {
     debug_assert!(signs.len() >= n);
 
-    for i in 0..n {
+    for (i, sign) in signs.iter_mut().enumerate().take(n) {
         let byte_idx = i / BITS_PER_BYTE;
         let bit_idx = i % BITS_PER_BYTE;
 
         if byte_idx < packed.len() && (packed[byte_idx] >> bit_idx) & 1 == 1 {
-            signs[i] = 1;
+            *sign = 1;
         } else {
-            signs[i] = -1;
+            *sign = -1;
         }
     }
 }
@@ -60,7 +60,7 @@ pub fn unpack_bit(packed: &[u8], i: usize) -> i8 {
 }
 
 pub fn packed_len(n: usize) -> usize {
-    (n + BITS_PER_BYTE - 1) / BITS_PER_BYTE
+    n.div_ceil(BITS_PER_BYTE)
 }
 
 #[cfg(test)]

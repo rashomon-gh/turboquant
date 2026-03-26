@@ -1,7 +1,7 @@
 use crate::bitpack;
 use ndarray::ArrayView2;
 
-const SQRT_PI_OVER_2: f32 = 1.25331413732;
+const SQRT_PI_OVER_2: f32 = 1.253_314_1;
 
 pub struct QjlWorkspace {
     pub projected: Vec<f32>,
@@ -118,8 +118,8 @@ mod tests {
             &mut reconstructed,
         );
 
-        for i in 0..d {
-            assert!(reconstructed[i].is_finite());
+        for val in &reconstructed {
+            assert!(val.is_finite());
         }
     }
 
@@ -151,8 +151,8 @@ mod tests {
             &mut reconstructed,
         );
 
-        for i in 0..d {
-            assert!(reconstructed[i].is_finite());
+        for val in &reconstructed {
+            assert!(val.is_finite());
         }
     }
 }
